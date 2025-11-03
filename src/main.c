@@ -1,17 +1,16 @@
 #include <gtk/gtk.h>
-#include "dirtree.h"
-#include "ui.h"
-#include "adapters.h"
+#include "filework/dirtree.h"
+#include "app_prefs.h"
+#include "ui/main_window.h"
+#include "ui/root_chooser_window.h"
 
 // app signals
 // this callback is called on startup signal
 void app_init(GtkApplication *app, gpointer user_data)
 {
   AppData *data = (AppData*)user_data;
-	//GNode *dirtree;
 	ui_main_window_init(app);
-  ui_root_folder_dialog_init(data);
-  //dirtree = dirtree_create(settings->dirpath, settings->max_depth);
+  ui_root_chooser_window_init(data);
 }
 
 void app_activate(GtkApplication *app, gpointer user_data)
@@ -20,8 +19,10 @@ void app_activate(GtkApplication *app, gpointer user_data)
 }
 
 // this is called on shutdown signal
-void app_cleanup(AppData *data)
+void app_cleanup(gpointer *user_data)
 {
+  AppData *data = (AppData*)user_data;
+  
 	dirtree_free(data->dirtree);
 }
 

@@ -1,5 +1,5 @@
-#include "filestruct.h"
-#include "fileutils.h"
+#include "filework/filestruct.h"
+#include "filework/fileutils.h"
 
 // func to create dirtree node (filestruct)
 // using filepath or GFile with GFileInfo

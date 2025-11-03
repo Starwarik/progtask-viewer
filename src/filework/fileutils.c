@@ -1,4 +1,4 @@
-#include "fileutils.h"
+#include "filework/fileutils.h"
 
 // safely get file info by a given file
 GFileInfo *fileutils_get_file_info(GFile *file)

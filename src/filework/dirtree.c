@@ -2,9 +2,9 @@
 // it is stateful (e.g. no API to create tree)
 
 #include <stdbool.h>
-#include "dirtree.h"
-#include "filestruct.h"
-#include "fileutils.h"
+#include "filework/dirtree.h"
+#include "filework/filestruct.h"
+#include "filework/fileutils.h"
 
 static void build_tree_recursive(GNode *parent, GFile *parent_file, guint depth, guint max_depth)
 {
