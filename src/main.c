@@ -22,7 +22,8 @@ void app_activate(GtkApplication *app, gpointer user_data)
 void app_cleanup(gpointer *user_data)
 {
   AppData *data = (AppData*)user_data;
-  
+  root_chooser_free(data->root_chooser);
+  main_window_free(data->main);
 	dirtree_free(data->dirtree);
 }
 

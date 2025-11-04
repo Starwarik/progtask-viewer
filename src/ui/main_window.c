@@ -5,7 +5,7 @@ MainWindowStruct *main_window_new(GtkWidget *window)
 {
 	MainWindowStruct *data = g_new0(MainWindowStruct, 1);
 	if (window)
-		data->window = window;
+		data->window = g_object_ref(window);
 	else
 		data->window = NULL;
 	data->opened = FALSE;
@@ -15,6 +15,16 @@ MainWindowStruct *main_window_new(GtkWidget *window)
 void main_window_set_opened(MainWindowStruct *main_window_data, gboolean opened)
 {
 	main_window_data->opened = opened;
+}
+
+void main_window_free(MainWindowStruct *main)
+{
+	if (main)
+	{
+		if (main->window)
+			g_object_unref(main->window);
+		g_free(main);
+	}
 }
 
 // init the main window
