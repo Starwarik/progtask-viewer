@@ -21,4 +21,4 @@ typedef struct RootChooserStruct
 void root_chooser_free(RootChooserStruct *root_chooser);
 
 // init of window
-void ui_root_chooser_window_init(AppData *data);
+void root_chooser_window_init(AppData *data);

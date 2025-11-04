@@ -1,16 +1,16 @@
 #include <gtk/gtk.h>
 #include "filework/dirtree.h"
 #include "app_prefs.h"
-#include "ui/main_window.h"
 #include "ui/root_chooser_window.h"
+#include "ui/main_window.h"
 
 // app signals
 // this callback is called on startup signal
 void app_init(GtkApplication *app, gpointer user_data)
 {
   AppData *data = (AppData*)user_data;
-	ui_main_window_init(app);
-  ui_root_chooser_window_init(data);
+  main_window_init(app, data);
+  root_chooser_window_init(data);
 }
 
 void app_activate(GtkApplication *app, gpointer user_data)

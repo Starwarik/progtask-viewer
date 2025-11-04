@@ -1,4 +1,5 @@
 #include "ui/root_chooser_window.h"
+#include "ui/main_window.h"
 #include "widgets/root_chooser_warning.h"
 #include "filework/dirtree.h"
 #include "filework/fileutils.h"
@@ -129,11 +130,30 @@ static void on_root_setup_confirm(GtkWidget *button, gpointer user_data)
 	}
 }
 
-void ui_root_chooser_window_init(AppData *data)
+// open main window when root chooser is closed
+static gboolean on_root_chooser_close_request(GtkWindow *window, gpointer user_data)
 {
-	// root folder setup dialog
+	AppData *data = (AppData*)user_data;
+	if (!data->main->opened)
+	{
+		gtk_window_present(GTK_WINDOW(data->main->window));
+		main_window_set_opened(data->main, TRUE);
+	}
+	return FALSE;
+}
+
+void root_chooser_window_init(AppData *data)
+{
+	// root folder setup window
 	GtkWidget *folder_setup = gtk_window_new();
 	gtk_window_set_title(GTK_WINDOW(folder_setup), "Параметры сканирования");
+	// signal to open main window if this window will be closed
+	// part of app lifecycle
+	g_signal_connect(
+		folder_setup,
+		"close-request",
+		G_CALLBACK(on_root_chooser_close_request),
+		data);
 	//gtk_window_set_default_size(folder_setup, 500, 250);
 	
 	// grid creation
