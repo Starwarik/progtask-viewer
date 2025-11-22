@@ -4,6 +4,7 @@
 // as pointers on them are part of AppData definition
 typedef struct MainWindowStruct MainWindowStruct;
 typedef struct RootChooserStruct RootChooserStruct;
+typedef struct NavigatorStruct NavigatorStruct;
 
 // struct for app settings
 // describes data that need to be stored in the file
@@ -23,14 +24,14 @@ typedef struct AppData
 {
 	MainWindowStruct *main;
 	RootChooserStruct *root_chooser;
-	GNode *dirtree;
+	NavigatorStruct *nav;
 	AppSettings *settings;
 } AppData;
 
 AppData *app_data_new(
 	MainWindowStruct *main,
 	RootChooserStruct *root_chooser,
-	GNode *dirtree,
+	NavigatorStruct *nav,
 	AppSettings *settings);
 
 void app_data_free(AppData *data);

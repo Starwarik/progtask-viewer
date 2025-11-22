@@ -1,4 +1,5 @@
 #include "filework/fileutils.h"
+#include <string.h>
 
 // safely get file info by a given file
 GFileInfo *fileutils_get_file_info(GFile *file)
@@ -26,7 +27,7 @@ GFileInfo *fileutils_get_file_info(GFile *file)
 }
 
 // directoriness by fileinfo
-bool fileutils_is_directory_by_fileinfo(GFileInfo *info)
+gboolean fileutils_is_directory_by_fileinfo(GFileInfo *info)
 {
 	GFileType type = g_file_info_get_file_type(info);
 	if (!type)
@@ -38,7 +39,23 @@ bool fileutils_is_directory_by_fileinfo(GFileInfo *info)
 	{
 		return true;
 	}
-	g_print("Почему то не получилось определить папковость файла...");
+	return false;
+}
+
+gboolean fileutils_is_cfile_by_fileinfo(GFileInfo *info)
+{
+	const gchar *name = g_file_info_get_name(info);
+	gchar *extension = NULL;
+	const gchar *dot = strrchr(name, '.');
+	if (dot)
+	{
+		if ((dot != name) && (*(dot+1) != '\0'))
+		{
+			extension = g_ascii_strdown(dot+1, -1);
+			return !strcmp(extension, "c");
+		}
+	}
+	g_free(extension);
 	return false;
 }
 

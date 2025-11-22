@@ -4,6 +4,7 @@
 #include "filework/dirtree.h"
 #include "filework/fileutils.h"
 #include "app_prefs.h"
+#include "filework/navigator.h"
 
 // data structs for root chooser window
 
@@ -122,7 +123,9 @@ static void on_root_setup_confirm(GtkWidget *button, gpointer user_data)
 	{
 		data->settings->dirpath = g_strdup(dirpath);
 		data->settings->max_depth = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(data->root_chooser->spin_button));
-		data->dirtree = dirtree_create(data->settings->dirpath, data->settings->max_depth);
+		data->nav = navigator_new(data->settings->dirpath, data->settings->max_depth, data);
+		// navigator will determine type of folder
+		main_window_activate(data);
 		gtk_window_close(GTK_WINDOW(data->root_chooser->window));
 	} else
 	{

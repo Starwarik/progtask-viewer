@@ -27,15 +27,20 @@ static void build_tree_recursive(GNode *parent, GFile *parent_file, guint depth,
 		//g_print(get_file_extension(info));
 		GFile *child_file = g_file_enumerator_get_child(enumerator, info);
 		FileStruct *child_data = file_struct_new(child_file, info, "");
+
 		GNode *child_node = g_node_new(child_data);
+		// REMOVE LATER BLYAT YOU IDIOT DUMB MORON
+		FileStruct *shitmazafaka = (FileStruct*)child_node->data;
+		g_print(g_file_get_basename(shitmazafaka->file));
+		g_print("\n");
+		// lalalalalallalalalalalalalalallal end
 		g_node_insert(parent, -1, child_node);
 
-		GFileType file_type = g_file_info_get_file_type(info);
+		GFileType file_type = g_file_info_get_file_type(child_data->info);
 		if (file_type == G_FILE_TYPE_DIRECTORY)
 		{
-			build_tree_recursive(child_node, child_file, depth+1, max_depth);
+			build_tree_recursive(child_node, child_data->file, depth+1, max_depth);
 		}
-		//g_object_unref(child_file);
 	}
 	g_file_enumerator_close(enumerator, NULL, NULL);
 	g_object_unref(enumerator);
