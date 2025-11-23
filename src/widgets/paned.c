@@ -15,6 +15,7 @@ static void paned_remove_child(
 			case PANED_CHILD_NULL:
 				break;
 			case PANED_CHILD_BACK_BUTTON:
+				// removes automatically
 				break;
 			case PANED_CHILD_FOLDER_CONTAINER:
 				FolderButtonContainerStruct *container = (FolderButtonContainerStruct*)self->child1;
@@ -37,6 +38,7 @@ static void paned_remove_child(
 			case PANED_CHILD_NULL:
 				break;
 			case PANED_CHILD_BACK_BUTTON:
+				// removes automatically
 				break;
 			case PANED_CHILD_FOLDER_CONTAINER:
 				FolderButtonContainerStruct *container = (FolderButtonContainerStruct*)self->child2;

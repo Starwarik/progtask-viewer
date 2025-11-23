@@ -4,6 +4,7 @@
 #include "widgets/folder_button_container.h"
 #include "widgets/paned.h"
 #include "filework/navigator.h"
+#include "widgets/back_button.h"
 
 MainWindowStruct *main_window_new(
 	GtkWidget *window,
@@ -57,6 +58,11 @@ void main_window_init(GtkApplication *app, AppData *data)
 // to choose on startup between notebook and folder container
 void main_window_activate(AppData *data)
 {
+	paned_change_child(
+		data->main->paned,
+		(gpointer)back_button_new(data),
+		PANED_CHILD_BACK_BUTTON,
+		0);
 	// if taskdir, then render notebook and terminal
 	if (navigator_is_taskdir(data->nav))
 	{
