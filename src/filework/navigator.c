@@ -75,5 +75,6 @@ void navigator_to_subdir(NavigatorStruct *self, GNode *subdir)
 // change current to its parent
 void navigator_to_parent(NavigatorStruct *self)
 {
-	self->current = self->current->parent;
+	if (self->current != self->root)
+		self->current = self->current->parent;
 }
