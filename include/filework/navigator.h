@@ -29,6 +29,9 @@ void navigator_free(NavigatorStruct *self);
 // is current dir a taskdir? (i.e. contains .c file)
 gboolean navigator_is_taskdir(NavigatorStruct *self);
 
+// reads dirignores from the file
+gchar* navigator_read_dirignore(gchar *filepath, gsize length);
+
 // discover children of current and return them as GArray
 GPtrArray* navigator_discover(NavigatorStruct *self);
 

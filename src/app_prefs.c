@@ -3,17 +3,19 @@
 #include "ui/main_window.h"
 #include "filework/navigator.h"
 
-AppSettings *app_settings_new(gchar *dirpath, guint max_depth)
+AppSettings *app_settings_new(gchar *dirpath, guint max_depth, gchar *dirignore)
 {
 	AppSettings *settings = g_new0(AppSettings, 1);
 	settings->dirpath = dirpath;
 	settings->max_depth = max_depth;
+	settings->dirignore = dirignore;
 	return settings;
 }
 
 void app_settings_free(AppSettings *settings)
 {
 	g_free(settings->dirpath);
+	g_free(settings->dirignore);
 	g_free(settings);
 }
 

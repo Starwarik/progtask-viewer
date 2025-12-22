@@ -12,9 +12,10 @@ typedef struct AppSettings
 {
 	gchar *dirpath; // path to working dir
 	guint max_depth; // max depth of scanning
+	gchar *dirignore; // string containing folder names to be ignored
 } AppSettings;
 
-AppSettings *app_settings_new(gchar *dirpath, guint max_depth);
+AppSettings *app_settings_new(gchar *dirpath, guint max_depth, gchar *dirignore);
 void app_settings_free(AppSettings *settings);
 
 // struct to contain app data

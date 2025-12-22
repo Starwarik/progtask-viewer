@@ -9,6 +9,7 @@
 #include "ui/main_window.h"
 #include "widgets/folder_button_container.h"
 #include "widgets/paned.h"
+#include <windows.h>
 
 void on_folder_click(GtkWidget *button, gpointer user_data)
 {
@@ -17,7 +18,17 @@ void on_folder_click(GtkWidget *button, gpointer user_data)
 	// if taskdir, then render notebook and terminal
 	if (navigator_is_taskdir(button_data->data->nav))
 	{
-		
+		FileStruct* folder_data = (FileStruct*)button_data->folder->data;
+		gchar* exe_path = g_strconcat(folder_data->filepath, "\\", "build\\Debug\\outDebug.exe", NULL);
+		g_print("LALALA THIS IS EXE PATH %s\n", exe_path);
+		//gchar* command = g_strdup_printf("start \"%s\" cmd.exe /K \"%s\"", exe_path, exe_path);
+		gchar *argv[] = {"C:\\Windows\\System32\\cmd.exe", "/C", "start", "\"Debug App\"", exe_path, NULL};
+		GError *error = NULL;
+		ShellExecute(NULL, "open", exe_path, NULL, NULL, SW_SHOWNORMAL);
+
+		g_free(exe_path);
+		navigator_to_parent(button_data->data->nav);
+		//g_free(command);
 	} else // if not, render folder container
 	{
 		paned_change_child(

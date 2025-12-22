@@ -124,6 +124,7 @@ static void on_root_setup_confirm(GtkWidget *button, gpointer user_data)
 		data->settings->dirpath = g_strdup(dirpath);
 		data->settings->max_depth = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(data->root_chooser->spin_button));
 		data->nav = navigator_new(data->settings->dirpath, data->settings->max_depth, data);
+		data->settings->dirignore = navigator_read_dirignore("resources\\.dirignore", 300);
 		// navigator will determine type of folder
 		main_window_activate(data);
 		gtk_window_close(GTK_WINDOW(data->root_chooser->window));
@@ -177,7 +178,7 @@ void root_chooser_window_init(AppData *data)
 	// data adapter for cb to get path and depth. Requiers settings, parent window, entry, spinbutton
 	// (at least settings)
 	// we will add spinbutton later
-	data->settings = app_settings_new(NULL, 0);
+	data->settings = app_settings_new(NULL, 0, NULL);
 	data->root_chooser = root_chooser_new(folder_setup,
 																				grid,
 																				description,

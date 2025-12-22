@@ -44,7 +44,42 @@ gboolean navigator_is_taskdir(NavigatorStruct *self)
 	return false;
 }
 
-// discover children of current and return them as GArray
+// reads dirignores from the file
+gchar* navigator_read_dirignore(gchar *filepath, gsize length)
+{
+	gchar *dirignore;
+	g_file_get_contents(filepath, &dirignore, &length, NULL);
+	return dirignore;
+}
+
+// applies dirignore to GNode child using its Filestruct data. If matches, returns FALSE
+static gboolean navigator_is_in_dirignore(gchar *dirignore, FileStruct *child_data)
+{
+	gchar **patterns = g_strsplit(dirignore, "\n", -1);
+	const gchar *name = g_file_info_get_name(child_data->info);
+	g_print("current filename %s\n", name);
+	for (gint i = 0; patterns[i] != NULL; i++)
+	{
+		g_strstrip(patterns[i]);
+		g_print("patterns %d is %s\n", i, patterns[i]);
+		if (patterns[i][0] == '\0')
+		{
+			continue;
+		}
+		g_print("result of g_strcmp0: %d\n", g_strcmp0(patterns[i], name));
+		if (g_strcmp0(patterns[i], name) == 0)
+		{
+			g_print("HERE WE ARE BABY\n");
+			g_print("  -> MATCH! Ignoring directory '%s'\n", name);
+			g_strfreev(patterns);
+			return true;
+		}
+	}
+	g_strfreev(patterns);
+	return false;
+}
+
+// discover children of current and return them as GPtrArray
 GPtrArray* navigator_discover(NavigatorStruct *self)
 {
 	GPtrArray *children = g_ptr_array_new();
@@ -59,8 +94,11 @@ GPtrArray* navigator_discover(NavigatorStruct *self)
 		{
 			g_print("before appending %u GNode\n", i);
 			g_print("Child %u: GNode* = %p, data = %p\n", i, child, child ? child->data : NULL);
-			g_ptr_array_add(children, (gpointer)child);
-			g_print("after appending %u GNode\n", i);
+			if (!navigator_is_in_dirignore(self->data->settings->dirignore, child_data))
+			{
+				g_ptr_array_add(children, (gpointer)child);
+				g_print("after appending %u GNode\n", i);
+			}
 		}
 	}
 	return children;
