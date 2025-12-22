@@ -6,7 +6,7 @@ To run it, you don't need to compile source code, just download "bin.zip" from t
 Fuck you.
 But if be serious:
 1. Install MSYS2
-2. Install gtk dev package in UCRT64 shell (find it in official tutorial for GTK in MSYS2)
+2. Install gtk package in UCRT64 shell
 3. Use `$(pkg-config --cflags gtk4)` with compiler for include and etc.
 4. Use `$(pkg-config --libs gtk4)` with compiler for libs
 5. (on windows) Use `-mwindows` if you want to disable gtk debug console.
